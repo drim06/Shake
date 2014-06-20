@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Shake That Phone</string>
+    <string name="view_current_score">0</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="sprint">Sprint</string>
+    <string name="endurance">Endurance</string>
+    <string name="jouer">Jouer</string>
+    <string name="profil">Profil</string>
+
+</resources>

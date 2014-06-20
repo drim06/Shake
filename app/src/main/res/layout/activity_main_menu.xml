@@ -1,0 +1,100 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="zm.shakethatphone.MainMenu">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="33">
+
+        <Button
+            android:id="@+id/sprint"
+            android:layout_weight="50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="#ffd700"
+            android:textColor="#228b22"
+            android:text="@string/sprint"
+            android:textSize="32sp"/>
+
+        <Button
+            android:layout_weight="50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="#228b22"
+            android:textColor="#ffd700"
+            android:text="@string/endurance"
+            android:textSize="32sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="33">
+
+        <Button
+            android:id="@+id/profil"
+            android:layout_weight="50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="#228b22"
+            android:textColor="#ffd700"
+            android:text="@string/profil"
+            android:textSize="32sp" />
+
+        <Button
+            android:layout_weight="50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="#ffd700"
+            android:textColor="#228b22"
+            android:text="@string/jouer"
+            android:textSize="32sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="33">
+
+        <Button
+            android:layout_weight="50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="#ffd700"
+            android:textColor="#228b22"
+            android:text="@string/jouer"
+            android:textSize="32sp" />
+
+        <Button
+            android:layout_weight="50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="#228b22"
+            android:textColor="#ffd700"
+            android:text="@string/profil"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
