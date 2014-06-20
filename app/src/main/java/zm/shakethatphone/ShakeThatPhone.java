@@ -132,5 +132,6 @@ public class ShakeThatPhone extends Activity implements SensorEventListener{
     private void goMenu(){
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
     }
 }

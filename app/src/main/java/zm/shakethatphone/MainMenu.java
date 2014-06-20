@@ -22,6 +22,7 @@ public class MainMenu extends Activity {
                 Intent intent = new Intent(MainMenu.this, ShakeThatPhone.class);
                 intent.putExtra("autorised_time", 4);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -32,6 +33,7 @@ public class MainMenu extends Activity {
                 Intent intent = new Intent(MainMenu.this, ShakeThatPhone.class);
                 intent.putExtra("autorised_time", 21);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }
