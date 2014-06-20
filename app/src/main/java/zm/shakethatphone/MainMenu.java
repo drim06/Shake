@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class MainMenu extends Activity {
     private Button sprint;
+    private Button endurance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,17 @@ public class MainMenu extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenu.this, ShakeThatPhone.class);
+                intent.putExtra("autorised_time", 4);
+                startActivity(intent);
+            }
+        });
+
+        endurance = (Button) findViewById(R.id.endurance);
+        endurance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, ShakeThatPhone.class);
+                intent.putExtra("autorised_time", 21);
                 startActivity(intent);
             }
         });

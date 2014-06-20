@@ -26,7 +26,8 @@ public class ShakeThatPhone extends Activity implements SensorEventListener{
         setContentView(R.layout.activity_shake_that_phone);
 
         currentScore = 0;
-        autorisedTime = 4;
+
+        autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
