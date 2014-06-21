@@ -1,0 +1,110 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="zm.shakethatphone.ResultatPartie"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="20">
+
+    <TextView
+        android:id="@+id/modeDeJeu"
+        android:layout_weight="30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:text="mode sprint"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/currentScore"
+        android:layout_weight="30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="16"
+        android:layout_gravity="center"
+        android:gravity="bottom"
+        android:textSize="82sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="30">
+
+        <TextView
+            android:id="@+id/txtMeilleur"
+            android:layout_weight="30"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="MEILLEUR "
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:textSize="26sp"/>
+
+        <TextView
+            android:id="@+id/bestScore"
+            android:layout_weight="50"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="30"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:textSize="26sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="30">
+
+        <TextView
+            android:id="@+id/partager"
+            android:layout_weight="30"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="Partager"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/quitter"
+            android:layout_weight="30"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="Quitter"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/rejouer"
+            android:layout_weight="30"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:text="Rejouer"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

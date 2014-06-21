@@ -9,7 +9,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ModeSprint extends Activity implements SensorEventListener {
     private float xCurrentValueGyroscope, yCurrentValueGyroscope, zCurrentValueGyroscope;
@@ -93,8 +92,7 @@ public class ModeSprint extends Activity implements SensorEventListener {
         public void run() {
             incrementTime();
             unregisterListenerGyroscope();
-            printScoreWithToast();
-            goMenu();
+            goResultatPartie();
         }
     });
 
@@ -118,19 +116,18 @@ public class ModeSprint extends Activity implements SensorEventListener {
         sensorManager.unregisterListener(this, gyroscope);
     }
 
-    private void printScoreWithToast(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String finalScore = currentScore + "";
-                Toast.makeText(ModeSprint.this, finalScore, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void goMenu(){
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
         overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
+    }
+
+    private void goResultatPartie(){
+        Intent intent = new Intent(this, ResultatPartie.class);
+        intent.putExtra("autorised_time", autorisedTime);
+        intent.putExtra("game_mode", "Mode Sprint");
+        intent.putExtra("score", currentScore);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in_opacity, R.anim.fade_out_opacity);
     }
 }

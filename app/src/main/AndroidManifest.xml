@@ -29,11 +29,18 @@
         </activity>
         <activity
             android:name=".ModeSprint"
-            android:label="@string/title_activity_mode_sprint" >
+            android:label="@string/title_activity_mode_sprint"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ModeEndurance"
-            android:label="@string/title_activity_mode_endurance" >
+            android:label="@string/title_activity_mode_endurance"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ResultatPartie"
+            android:label="@string/title_activity_resultat_partie"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
