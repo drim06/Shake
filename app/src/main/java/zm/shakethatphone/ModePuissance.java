@@ -2,46 +2,42 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
-public class ModeReflexe extends Activity implements SensorEventListener {
+/**
+ * Created by Marc on 21/06/2014.
+ */
+public class ModePuissance extends Activity implements SensorEventListener {
     private float xCurrentValueGyroscope, yCurrentValueGyroscope, zCurrentValueGyroscope;
     private SensorManager sensorManager;
     private Sensor gyroscope;
-    private int currentScore;
     private int autorisedTime;
     private TextView viewCurrentScore;
-    private RelativeLayout relativeLayout;
-    private Boolean userShouldShake;
+    private int currentPuissanceValue;
+    private int bestPuissanceValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mode_reflexe);
+        setContentView(R.layout.activity_mode_puissance);
 
-        currentScore = 0;
+        currentPuissanceValue = 0;
+        bestPuissanceValue = 0;
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
-
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
-        relativeLayout = (RelativeLayout) viewCurrentScore.getParent();
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-
-        userShouldShake = false;
-        makeDesign();
 
         timer.start();
     }
@@ -88,23 +84,19 @@ public class ModeReflexe extends Activity implements SensorEventListener {
             yCurrentValueGyroscope = event.values[1];
             zCurrentValueGyroscope = event.values[2];
 
-            incrementOrDecrementScore();
-            updateTextCurrentScore();
+            Random r = new Random();
+            currentPuissanceValue = (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
+                    + Math.abs(zCurrentValueGyroscope))*(95 + r.nextInt(10));
+
+            if(currentPuissanceValue > bestPuissanceValue){
+                bestPuissanceValue = currentPuissanceValue;
+                viewCurrentScore.setText(bestPuissanceValue+"");
+            }
         }
     }
 
-    private void incrementOrDecrementScore(){
-        if(userShouldShake){
-            currentScore += (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
-                    + Math.abs(zCurrentValueGyroscope));
-        } else {
-            currentScore -= (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
-                    + Math.abs(zCurrentValueGyroscope));
-        }
-    }
-
-    private void updateTextCurrentScore(){
-        viewCurrentScore.setText(currentScore+"");
+    public void onBackPressed(){
+        // nothing
     }
 
     Thread timer = new Thread(new Runnable() {
@@ -122,7 +114,6 @@ public class ModeReflexe extends Activity implements SensorEventListener {
         while(elapsedTime <= autorisedTime) {
             elapsedTime++;
             sleepOneSecond();
-            makeChangementOrNot();
         }
     }
 
@@ -134,13 +125,6 @@ public class ModeReflexe extends Activity implements SensorEventListener {
         }
     }
 
-    private void makeChangementOrNot(){
-        Random r = new Random();
-        if(r.nextInt(2) == 0){
-            changeGameSituation();
-        }
-    }
-
     private void unregisterListenerGyroscope(){
         sensorManager.unregisterListener(this, gyroscope);
     }
@@ -149,8 +133,8 @@ public class ModeReflexe extends Activity implements SensorEventListener {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String finalScore = currentScore + "";
-                Toast.makeText(ModeReflexe.this, finalScore, Toast.LENGTH_SHORT).show();
+                String finalScore = bestPuissanceValue + "";
+                Toast.makeText(ModePuissance.this, finalScore, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -159,36 +143,5 @@ public class ModeReflexe extends Activity implements SensorEventListener {
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
         overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
-    }
-
-    private void makeDesign(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(userShouldShake){
-                    // Fond vert, text jaune
-                    viewCurrentScore.setTextColor(Color.parseColor("#ffd700"));
-                    relativeLayout.setBackgroundColor(Color.parseColor("#228b22"));
-                } else {
-                    // Fond jaune, text vert
-                    viewCurrentScore.setTextColor(Color.parseColor("#228b22"));
-                    relativeLayout.setBackgroundColor(Color.parseColor("#ffd700"));
-                }
-            }
-        });
-    }
-
-    private void changeGameSituation(){
-        if(userShouldShake){
-            userShouldShake = false;
-            makeDesign();
-        } else {
-            userShouldShake = true;
-            makeDesign();
-        }
-    }
-
-    public void onBackPressed(){
-        // nothing
     }
 }

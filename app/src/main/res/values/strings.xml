@@ -10,7 +10,10 @@
     <string name="reflexe">Réflexe</string>
     <string name="jouer">Jouer</string>
     <string name="profil">Profil</string>
+    <string name="aventure">Aventure</string>
+    <string name="puissance">Puissance</string>
     <string name="title_activity_mode_reflexe">ModeReflexe</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_mode_puissance">ModePuissance</string>
 
 </resources>

@@ -10,6 +10,7 @@ public class MainMenu extends Activity {
     private Button sprint;
     private Button endurance;
     private Button reflexe;
+    private Button puissance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,17 @@ public class MainMenu extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenu.this, ModeReflexe.class);
                 intent.putExtra("autorised_time", 10);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
+        puissance = (Button) findViewById(R.id.puissance);
+        puissance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, ModePuissance.class);
+                intent.putExtra("autorised_time", 3);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }

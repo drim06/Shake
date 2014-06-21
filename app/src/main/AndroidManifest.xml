@@ -24,6 +24,10 @@
             android:name=".ModeReflexe"
             android:label="@string/title_activity_mode_reflexe" >
         </activity>
+        <activity
+            android:name=".ModePuissance"
+            android:label="@string/title_activity_mode_puissance" >
+        </activity>
     </application>
 
 </manifest>
