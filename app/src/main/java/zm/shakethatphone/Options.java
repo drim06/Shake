@@ -14,7 +14,7 @@ public class Options extends Activity {
     private TextView son;
     private TextView musique;
     private TextView evaluer;
-    private TextView aPropos;
+    private TextView contacter;
 
     private MediaPlayer songTouch;
 
@@ -75,10 +75,13 @@ public class Options extends Activity {
             }
         });
 
-        aPropos.setOnClickListener(new View.OnClickListener() {
+        contacter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 playSongTouch();
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", "ShakeThatPhone@gmail.com", null));
+                startActivity(Intent.createChooser(emailIntent, null));
             }
         });
 
@@ -97,7 +100,7 @@ public class Options extends Activity {
         son = (TextView) findViewById(R.id.songTouches);
         musique = (TextView) findViewById(R.id.musique);
         tutoriel = (TextView) findViewById(R.id.tutoriel);
-        aPropos = (TextView) findViewById(R.id.aPropos);
+        contacter = (TextView) findViewById(R.id.contacter);
         evaluer = (TextView) findViewById(R.id.evaluer);
         menu = (TextView) findViewById(R.id.menu);
     }

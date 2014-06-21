@@ -26,6 +26,6 @@
     <string name="song_touches">Son: NON</string>
     <string name="musique">Musique: NON</string>
     <string name="evaluer">Évaluer</string>
-    <string name="a_propos">À propos</string>
+    <string name="contacter">Contacter</string>
 
 </resources>
