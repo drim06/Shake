@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import zm.shakethatphone.ModesDeJeu.ModeEndurance;
+import zm.shakethatphone.ModesDeJeu.ModePuissance;
+import zm.shakethatphone.ModesDeJeu.ModeReflexe;
+import zm.shakethatphone.ModesDeJeu.ModeSprint;
+
 /**
  * Shake That Phone
  *

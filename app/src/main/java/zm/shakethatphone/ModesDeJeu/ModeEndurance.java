@@ -1,4 +1,4 @@
-package zm.shakethatphone;
+package zm.shakethatphone.ModesDeJeu;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
+
+import zm.shakethatphone.R;
+import zm.shakethatphone.ResultatPartie;
 
 public class ModeEndurance extends Activity implements SensorEventListener {
     private float xCurrentValueGyroscope, yCurrentValueGyroscope, zCurrentValueGyroscope;
@@ -139,7 +142,7 @@ public class ModeEndurance extends Activity implements SensorEventListener {
             @Override
             public void run() {
                 if(currentScore > memoireBestScoreEndurance){
-                    editor.putInt("bestScoreEndurance",currentScore);
+                    editor.putInt("bestScoreEndurance", currentScore);
                     editor.commit();
                 }
             }

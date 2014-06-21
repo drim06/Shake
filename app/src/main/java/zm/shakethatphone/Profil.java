@@ -3,6 +3,7 @@ package zm.shakethatphone;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.TextView;
@@ -23,10 +24,14 @@ public class Profil extends Activity {
     TextView txtBestScorePuissance;
     TextView txtCaloriesBrulees;
 
+    MediaPlayer songTouch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
+
+        songTouch = MediaPlayer.create(this, R.raw.song_touch);
 
         recupData();
         recupViews();
@@ -61,7 +66,14 @@ public class Profil extends Activity {
 
     @Override
     public void onBackPressed() {
+        playSongTouch();
         goMenu();
+    }
+
+    private void playSongTouch(){
+        if(DataGame.songTouchIsOn) {
+            songTouch.start();
+        }
     }
 
     private void goMenu(){

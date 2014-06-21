@@ -6,7 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="zm.shakethatphone.ModeReflexe">
+    tools:context="zm.shakethatphone.ModesDeJeu.ModeReflexe">
 
     <TextView
         android:id="@+id/view_current_score"

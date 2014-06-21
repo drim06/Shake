@@ -19,25 +19,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ModeReflexe"
+            android:name=".ModesDeJeu.ModeReflexe"
             android:label="@string/title_activity_mode_reflexe"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ModePuissance"
+            android:name=".ModesDeJeu.ModePuissance"
             android:label="@string/title_activity_mode_puissance"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ModeSprint"
+            android:name=".ModesDeJeu.ModeSprint"
             android:label="@string/title_activity_mode_sprint"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ModeEndurance"
+            android:name=".ModesDeJeu.ModeEndurance"
             android:label="@string/title_activity_mode_endurance"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" >

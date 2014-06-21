@@ -1,8 +1,9 @@
-package zm.shakethatphone;
+package zm.shakethatphone.ModesDeJeu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,21 +11,23 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Random;
 
-/**
- * Created by Marc on 21/06/2014.
- */
-public class ModePuissance extends Activity implements SensorEventListener {
+import zm.shakethatphone.R;
+import zm.shakethatphone.ResultatPartie;
+
+public class ModeReflexe extends Activity implements SensorEventListener {
     private float xCurrentValueGyroscope, yCurrentValueGyroscope, zCurrentValueGyroscope;
     private SensorManager sensorManager;
     private Sensor gyroscope;
+    private int currentScore;
     private int autorisedTime;
     private TextView viewCurrentScore;
-    private int currentPuissanceValue;
-    private int bestPuissanceValue;
+    private RelativeLayout relativeLayout;
+    private Boolean userShouldShake;
     /**
      * Preferences
      */
@@ -33,27 +36,30 @@ public class ModePuissance extends Activity implements SensorEventListener {
      * Editer les preferences
      */
     SharedPreferences.Editor editor;
-    int memoireBestScorePuissance;
+    int memoireBestScoreReflexe;
     int memoireCaloriesBrulees;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mode_puissance);
+        setContentView(R.layout.activity_mode_reflexe);
 
-        currentPuissanceValue = 0;
-        bestPuissanceValue = 0;
-
+        currentScore = 0;
         settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = settings.edit();
-        memoireBestScorePuissance = settings.getInt("bestScorePuissance",0);
+        memoireBestScoreReflexe = settings.getInt("bestScoreReflexe",0);
         memoireCaloriesBrulees = settings.getInt("caloriesBrulees", 0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
+
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
+        relativeLayout = (RelativeLayout) viewCurrentScore.getParent();
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        userShouldShake = false;
+        makeDesign();
 
         timer.start();
     }
@@ -100,19 +106,23 @@ public class ModePuissance extends Activity implements SensorEventListener {
             yCurrentValueGyroscope = event.values[1];
             zCurrentValueGyroscope = event.values[2];
 
-            Random r = new Random();
-            currentPuissanceValue = (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
-                    + Math.abs(zCurrentValueGyroscope))*(95 + r.nextInt(10));
-
-            if(currentPuissanceValue > bestPuissanceValue){
-                bestPuissanceValue = currentPuissanceValue;
-                viewCurrentScore.setText(bestPuissanceValue+"");
-            }
+            incrementOrDecrementScore();
+            updateTextCurrentScore();
         }
     }
 
-    public void onBackPressed(){
-        // nothing
+    private void incrementOrDecrementScore(){
+        if(userShouldShake){
+            currentScore += (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
+                    + Math.abs(zCurrentValueGyroscope));
+        } else {
+            currentScore -= (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
+                    + Math.abs(zCurrentValueGyroscope));
+        }
+    }
+
+    private void updateTextCurrentScore(){
+        viewCurrentScore.setText(currentScore+"");
     }
 
     Thread timer = new Thread(new Runnable() {
@@ -131,6 +141,7 @@ public class ModePuissance extends Activity implements SensorEventListener {
         while(elapsedTime <= autorisedTime) {
             elapsedTime++;
             sleepOneSecond();
+            makeChangementOrNot();
         }
     }
 
@@ -142,6 +153,13 @@ public class ModePuissance extends Activity implements SensorEventListener {
         }
     }
 
+    private void makeChangementOrNot(){
+        Random r = new Random();
+        if(r.nextInt(2) == 0){
+            changeGameSituation();
+        }
+    }
+
     private void unregisterListenerGyroscope(){
         sensorManager.unregisterListener(this, gyroscope);
     }
@@ -150,8 +168,8 @@ public class ModePuissance extends Activity implements SensorEventListener {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(bestPuissanceValue > memoireBestScorePuissance){
-                    editor.putInt("bestScorePuissance",bestPuissanceValue);
+                if(currentScore > memoireBestScoreReflexe){
+                    editor.putInt("bestScoreReflexe",currentScore);
                     editor.commit();
                 }
             }
@@ -161,21 +179,52 @@ public class ModePuissance extends Activity implements SensorEventListener {
     private void goResultatPartie(){
         Intent intent = new Intent(this, ResultatPartie.class);
         intent.putExtra("autorised_time", autorisedTime);
-        intent.putExtra("game_mode", "Mode Puissance");
-        intent.putExtra("score", bestPuissanceValue);
+        intent.putExtra("game_mode", "Mode Reflexe");
+        intent.putExtra("score", currentScore);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_opacity, R.anim.fade_out_opacity);
+    }
+
+    private void makeDesign(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(userShouldShake){
+                    // Fond vert, text jaune
+                    viewCurrentScore.setTextColor(Color.parseColor("#ffd700"));
+                    relativeLayout.setBackgroundColor(Color.parseColor("#228b22"));
+                } else {
+                    // Fond jaune, text vert
+                    viewCurrentScore.setTextColor(Color.parseColor("#228b22"));
+                    relativeLayout.setBackgroundColor(Color.parseColor("#ffd700"));
+                }
+            }
+        });
+    }
+
+    private void changeGameSituation(){
+        if(userShouldShake){
+            userShouldShake = false;
+            makeDesign();
+        } else {
+            userShouldShake = true;
+            makeDesign();
+        }
     }
 
     private void updateCaloriesBrulees(){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                int caloriesBruleesDuringThisGame = bestPuissanceValue / 1000;
+                int caloriesBruleesDuringThisGame = currentScore / 100;
                 int totalCaloriesBrulees = memoireCaloriesBrulees + caloriesBruleesDuringThisGame;
                 editor.putInt("caloriesBrulees", totalCaloriesBrulees);
                 editor.commit();
             }
         });
+    }
+
+    public void onBackPressed(){
+        // nothing
     }
 }

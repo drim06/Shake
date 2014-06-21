@@ -11,6 +11,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import zm.shakethatphone.ModesDeJeu.ModeEndurance;
+import zm.shakethatphone.ModesDeJeu.ModePuissance;
+import zm.shakethatphone.ModesDeJeu.ModeReflexe;
+import zm.shakethatphone.ModesDeJeu.ModeSprint;
+
 public class ResultatPartie extends Activity {
     TextView txtPartager;
     TextView txtQuitter;
