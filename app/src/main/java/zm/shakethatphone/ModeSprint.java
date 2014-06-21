@@ -11,8 +11,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-public class ShakeThatPhone extends Activity implements SensorEventListener{
+public class ModeSprint extends Activity implements SensorEventListener {
     private float xCurrentValueGyroscope, yCurrentValueGyroscope, zCurrentValueGyroscope;
     private SensorManager sensorManager;
     private Sensor gyroscope;
@@ -23,7 +22,7 @@ public class ShakeThatPhone extends Activity implements SensorEventListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shake_that_phone);
+        setContentView(R.layout.activity_mode_sprint);
 
         currentScore = 0;
 
@@ -44,7 +43,7 @@ public class ShakeThatPhone extends Activity implements SensorEventListener{
 
     @Override
     protected void onResume() {
-		// Abonnement au capteur
+        // Abonnement au capteur
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_UI);
         super.onResume();
     }
@@ -124,7 +123,7 @@ public class ShakeThatPhone extends Activity implements SensorEventListener{
             @Override
             public void run() {
                 String finalScore = currentScore + "";
-                Toast.makeText(ShakeThatPhone.this, finalScore, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ModeSprint.this, finalScore, Toast.LENGTH_SHORT).show();
             }
         });
     }

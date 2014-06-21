@@ -15,5 +15,7 @@
     <string name="title_activity_mode_reflexe">ModeReflexe</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_mode_puissance">ModePuissance</string>
+    <string name="title_activity_mode_sprint">ModeSprint</string>
+    <string name="title_activity_mode_endurance">ModeEndurance</string>
 
 </resources>
