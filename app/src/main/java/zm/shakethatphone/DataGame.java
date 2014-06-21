@@ -8,4 +8,6 @@ public class DataGame {
     /** Song **/
     public static boolean songTouchIsOn = true;
     public static boolean songNewBestScoreIsOn = true;
+
+    public static boolean tutorielIsOn = false;
 }
