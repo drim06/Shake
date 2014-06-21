@@ -2,11 +2,13 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,17 @@ public class ModeSprint extends Activity implements SensorEventListener {
     private int currentScore;
     private int autorisedTime;
     private TextView viewCurrentScore;
+    private TextView viewBestScoreSprint;
+    /**
+     * Preferences
+     */
+    SharedPreferences settings;
+    /**
+     * Editer les preferences
+     */
+    SharedPreferences.Editor editor;
+    int memoireBestScoreSprint;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +38,14 @@ public class ModeSprint extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_mode_sprint);
 
         currentScore = 0;
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = settings.edit();
+        memoireBestScoreSprint = settings.getInt("bestScoreSprint",0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
+        viewBestScoreSprint = (TextView) findViewById(R.id.bestScoreSprint);
+        viewBestScoreSprint.setText(Integer.toString(memoireBestScoreSprint));
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -123,6 +141,11 @@ public class ModeSprint extends Activity implements SensorEventListener {
             @Override
             public void run() {
                 String finalScore = currentScore + "";
+                if(currentScore > memoireBestScoreSprint){
+                    editor.putInt("bestScoreSprint",currentScore);
+                    editor.commit();
+                    viewBestScoreSprint.setText(Integer.toString(currentScore));
+                }
                 Toast.makeText(ModeSprint.this, finalScore, Toast.LENGTH_SHORT).show();
             }
         });

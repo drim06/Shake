@@ -9,6 +9,20 @@
     tools:context="zm.shakethatphone.ModeSprint">
 
     <TextView
+        android:id="@+id/textBestScoreSprint"
+        android:text="Meilleur Score : "
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/bestScoreSprint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textBestScoreSprint"
+        android:textSize="18sp" />
+
+    <TextView
         android:id="@+id/view_current_score"
         android:text="@string/view_current_score"
         android:layout_width="wrap_content"

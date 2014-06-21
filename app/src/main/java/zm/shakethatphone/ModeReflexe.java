@@ -2,12 +2,14 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +26,16 @@ public class ModeReflexe extends Activity implements SensorEventListener {
     private TextView viewCurrentScore;
     private RelativeLayout relativeLayout;
     private Boolean userShouldShake;
+    private TextView viewBestScoreReflexe;
+    /**
+     * Preferences
+     */
+    SharedPreferences settings;
+    /**
+     * Editer les preferences
+     */
+    SharedPreferences.Editor editor;
+    int memoireBestScoreReflexe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +43,15 @@ public class ModeReflexe extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_mode_reflexe);
 
         currentScore = 0;
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = settings.edit();
+        memoireBestScoreReflexe = settings.getInt("bestScoreReflexe",0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
 
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
+        viewBestScoreReflexe = (TextView) findViewById(R.id.bestScoreReflexe);
+        viewBestScoreReflexe.setText(Integer.toString(memoireBestScoreReflexe));
         relativeLayout = (RelativeLayout) viewCurrentScore.getParent();
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -150,6 +167,11 @@ public class ModeReflexe extends Activity implements SensorEventListener {
             @Override
             public void run() {
                 String finalScore = currentScore + "";
+                if(currentScore > memoireBestScoreReflexe){
+                    editor.putInt("bestScoreReflexe",currentScore);
+                    editor.commit();
+                    viewBestScoreReflexe.setText(Integer.toString(currentScore));
+                }
                 Toast.makeText(ModeReflexe.this, finalScore, Toast.LENGTH_SHORT).show();
             }
         });

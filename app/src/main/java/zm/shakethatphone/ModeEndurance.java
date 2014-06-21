@@ -2,11 +2,13 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,16 @@ public class ModeEndurance extends Activity implements SensorEventListener {
     private int currentScore;
     private int autorisedTime;
     private TextView viewCurrentScore;
+    private TextView viewBestScoreEndurance;
+    /**
+     * Preferences
+     */
+    SharedPreferences settings;
+    /**
+     * Editer les preferences
+     */
+    SharedPreferences.Editor editor;
+    int memoireBestScoreEndurance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +37,14 @@ public class ModeEndurance extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_mode_endurance);
 
         currentScore = 0;
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = settings.edit();
+        memoireBestScoreEndurance = settings.getInt("bestScoreEndurance",0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
+        viewBestScoreEndurance = (TextView) findViewById(R.id.bestScoreEndurance);
+        viewBestScoreEndurance.setText(Integer.toString(memoireBestScoreEndurance));
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -123,6 +140,11 @@ public class ModeEndurance extends Activity implements SensorEventListener {
             @Override
             public void run() {
                 String finalScore = currentScore + "";
+                if(currentScore > memoireBestScoreEndurance){
+                    editor.putInt("bestScoreEndurance",currentScore);
+                    editor.commit();
+                    viewBestScoreEndurance.setText(Integer.toString(currentScore));
+                }
                 Toast.makeText(ModeEndurance.this, finalScore, Toast.LENGTH_SHORT).show();
             }
         });

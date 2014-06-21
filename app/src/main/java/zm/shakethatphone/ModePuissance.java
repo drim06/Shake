@@ -2,11 +2,13 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,16 @@ public class ModePuissance extends Activity implements SensorEventListener {
     private TextView viewCurrentScore;
     private int currentPuissanceValue;
     private int bestPuissanceValue;
+    private TextView viewBestScorePuissance;
+    /**
+     * Preferences
+     */
+    SharedPreferences settings;
+    /**
+     * Editer les preferences
+     */
+    SharedPreferences.Editor editor;
+    int memoireBestScorePuissance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +45,14 @@ public class ModePuissance extends Activity implements SensorEventListener {
         currentPuissanceValue = 0;
         bestPuissanceValue = 0;
 
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = settings.edit();
+        memoireBestScorePuissance = settings.getInt("bestScorePuissance",0);
+
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
+        viewBestScorePuissance = (TextView) findViewById(R.id.bestScorePuissance);
+        viewBestScorePuissance.setText(Integer.toString(memoireBestScorePuissance));
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -134,6 +152,11 @@ public class ModePuissance extends Activity implements SensorEventListener {
             @Override
             public void run() {
                 String finalScore = bestPuissanceValue + "";
+                if(bestPuissanceValue > memoireBestScorePuissance){
+                    editor.putInt("bestScorePuissance",bestPuissanceValue);
+                    editor.commit();
+                    viewBestScorePuissance.setText(Integer.toString(bestPuissanceValue));
+                }
                 Toast.makeText(ModePuissance.this, finalScore, Toast.LENGTH_SHORT).show();
             }
         });
