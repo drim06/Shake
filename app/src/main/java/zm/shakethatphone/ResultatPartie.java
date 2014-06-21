@@ -2,9 +2,11 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +25,15 @@ public class ResultatPartie extends Activity {
     int autorisedTime;
     int score;
     int bestScore;
+
+    /**
+     * Preferences
+     */
+    SharedPreferences settings;
+    /**
+     * Editer les preferences
+     */
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +63,7 @@ public class ResultatPartie extends Activity {
         txtRejouer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                rejouer();
             }
         });
     }
@@ -61,7 +72,21 @@ public class ResultatPartie extends Activity {
         mode = getIntent().getExtras().getString("game_mode");
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         score = getIntent().getExtras().getInt("score");
-        bestScore = 100; // need recup preferences
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = settings.edit();
+        recupBestScoreForThisGame();
+    }
+
+    private void recupBestScoreForThisGame(){
+        if(mode.equals("Mode Sprint")) {
+            bestScore = settings.getInt("bestScoreSprint", 0);
+        } else if (mode.equals("Mode Endurance")){
+            bestScore = settings.getInt("bestScoreEndurance", 0);
+        } else if (mode.equals("Mode Reflexe")){
+            bestScore = settings.getInt("bestScoreReflexe", 0);
+        } else if (mode.equals("Mode Puissance")){
+            bestScore = settings.getInt("bestScorePuissance", 0);
+        }
     }
 
     private void printData(){
@@ -99,7 +124,7 @@ public class ResultatPartie extends Activity {
     }
 
     private void changeColorDesign(){
-        if(score > bestScore){
+        if(score >= bestScore){
             linearLayout.setBackgroundColor(Color.parseColor("#228b22"));
             txtBestScore.setTextColor(Color.parseColor("#ffd700"));
             txtScore.setTextColor(Color.parseColor("#ffd700"));
@@ -121,7 +146,7 @@ public class ResultatPartie extends Activity {
     }
 
     private void playSoundIFNewBestScore(){
-        if(score > bestScore){
+        if(score >= bestScore){
             MediaPlayer songNewBestScore = MediaPlayer.create(this, R.raw.song_new_best_score);
             songNewBestScore.start();
         }
@@ -131,5 +156,45 @@ public class ResultatPartie extends Activity {
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
         overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
+    }
+
+    private void rejouer(){
+        if(mode.equals("Mode Sprint")){
+            reLaunchSprint();
+        } else if (mode.equals("Mode Endurance")){
+            reLaunchEndurance();
+        } else if (mode.equals("Mode Reflexe")){
+            reLaunchReflexe();
+        } else if (mode.equals("Mode Puissance")){
+            reLaunchPuissance();
+        }
+    }
+
+    private void reLaunchSprint(){
+        Intent intent = new Intent(this, ModeSprint.class);
+        intent.putExtra("autorised_time", autorisedTime);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    private void reLaunchEndurance(){
+        Intent intent = new Intent(this, ModeEndurance.class);
+        intent.putExtra("autorised_time", autorisedTime);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    private void reLaunchReflexe(){
+        Intent intent = new Intent(this, ModeReflexe.class);
+        intent.putExtra("autorised_time", autorisedTime);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    private void reLaunchPuissance(){
+        Intent intent = new Intent(this, ModePuissance.class);
+        intent.putExtra("autorised_time", autorisedTime);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

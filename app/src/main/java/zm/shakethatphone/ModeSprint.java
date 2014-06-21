@@ -2,11 +2,13 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -17,6 +19,16 @@ public class ModeSprint extends Activity implements SensorEventListener {
     private int currentScore;
     private int autorisedTime;
     private TextView viewCurrentScore;
+    /**
+     * Preferences
+     */
+    SharedPreferences settings;
+    /**
+     * Editer les preferences
+     */
+    SharedPreferences.Editor editor;
+    int memoireBestScoreSprint;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +36,9 @@ public class ModeSprint extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_mode_sprint);
 
         currentScore = 0;
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = settings.edit();
+        memoireBestScoreSprint = settings.getInt("bestScoreSprint",0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
@@ -92,6 +107,7 @@ public class ModeSprint extends Activity implements SensorEventListener {
         public void run() {
             incrementTime();
             unregisterListenerGyroscope();
+            updateNewScore();
             goResultatPartie();
         }
     });
@@ -116,10 +132,16 @@ public class ModeSprint extends Activity implements SensorEventListener {
         sensorManager.unregisterListener(this, gyroscope);
     }
 
-    private void goMenu(){
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
+    private void updateNewScore(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(currentScore > memoireBestScoreSprint){
+                    editor.putInt("bestScoreSprint",currentScore);
+                    editor.commit();
+                }
+            }
+        });
     }
 
     private void goResultatPartie(){

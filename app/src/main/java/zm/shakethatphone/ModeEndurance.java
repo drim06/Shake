@@ -2,14 +2,15 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ModeEndurance extends Activity implements SensorEventListener {
     private float xCurrentValueGyroscope, yCurrentValueGyroscope, zCurrentValueGyroscope;
@@ -18,6 +19,15 @@ public class ModeEndurance extends Activity implements SensorEventListener {
     private int currentScore;
     private int autorisedTime;
     private TextView viewCurrentScore;
+    /**
+     * Preferences
+     */
+    SharedPreferences settings;
+    /**
+     * Editer les preferences
+     */
+    SharedPreferences.Editor editor;
+    int memoireBestScoreEndurance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +35,9 @@ public class ModeEndurance extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_mode_endurance);
 
         currentScore = 0;
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        editor = settings.edit();
+        memoireBestScoreEndurance = settings.getInt("bestScoreEndurance",0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
@@ -93,8 +106,8 @@ public class ModeEndurance extends Activity implements SensorEventListener {
         public void run() {
             incrementTime();
             unregisterListenerGyroscope();
-            printScoreWithToast();
-            goMenu();
+            updateNewScore();
+            goResultatPartie();
         }
     });
 
@@ -118,19 +131,24 @@ public class ModeEndurance extends Activity implements SensorEventListener {
         sensorManager.unregisterListener(this, gyroscope);
     }
 
-    private void printScoreWithToast(){
+    private void updateNewScore(){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String finalScore = currentScore + "";
-                Toast.makeText(ModeEndurance.this, finalScore, Toast.LENGTH_SHORT).show();
+                if(currentScore > memoireBestScoreEndurance){
+                    editor.putInt("bestScoreEndurance",currentScore);
+                    editor.commit();
+                }
             }
         });
     }
 
-    private void goMenu(){
-        Intent intent = new Intent(this, MainMenu.class);
+    private void goResultatPartie(){
+        Intent intent = new Intent(this, ResultatPartie.class);
+        intent.putExtra("autorised_time", autorisedTime);
+        intent.putExtra("game_mode", "Mode Endurance");
+        intent.putExtra("score", currentScore);
         startActivity(intent);
-        overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
+        overridePendingTransition(R.anim.fade_in_opacity, R.anim.fade_out_opacity);
     }
 }
