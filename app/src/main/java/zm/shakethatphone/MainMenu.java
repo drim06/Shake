@@ -6,6 +6,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Shake That Phone
+ *
+ * idéal entre deux matchs, simple rapide et efficace, le jeu parfait pour vous
+ * affronter entre amis tout en restant amusant.
+ *
+ * êtes vous un Sprinteur ou plûtot Endurant ?
+ * Vous misez tout sur la Puissance ou sur vos Reflexes ?
+ *
+ * Rassurez vous il y a un mode de jeu pour chacun d'entre vous...
+ *
+ */
 public class MainMenu extends Activity {
     private Button sprint;
     private Button endurance;
@@ -21,7 +33,7 @@ public class MainMenu extends Activity {
         sprint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, ShakeThatPhone.class);
+                Intent intent = new Intent(MainMenu.this, ModeSprint.class);
                 intent.putExtra("autorised_time", 4);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -32,7 +44,7 @@ public class MainMenu extends Activity {
         endurance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, ShakeThatPhone.class);
+                Intent intent = new Intent(MainMenu.this, ModeEndurance.class);
                 intent.putExtra("autorised_time", 21);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
