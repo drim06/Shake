@@ -3,6 +3,7 @@ package zm.shakethatphone;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -85,6 +86,9 @@ public class Options extends Activity {
             @Override
             public void onClick(View view) {
                 playSongTouch();
+                String packageName = getPackageName();
+                String uri ="https://play.google.com/store/apps/details?id=" + packageName;
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)));
             }
         });
     }
