@@ -146,7 +146,7 @@ public class ResultatPartie extends Activity {
     }
 
     private void playSoundIFNewBestScore(){
-        if(score >= bestScore){
+        if(score >= bestScore && DataGame.songNewBestScoreIsOn){
             MediaPlayer songNewBestScore = MediaPlayer.create(this, R.raw.song_new_best_score);
             songNewBestScore.start();
         }

@@ -2,6 +2,7 @@ package zm.shakethatphone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,15 +27,20 @@ public class MainMenu extends Activity {
     private Button puissance;
     private Button profil;
 
+    private MediaPlayer songTouch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        songTouch = MediaPlayer.create(this, R.raw.song_touch);
+
         sprint = (Button) findViewById(R.id.sprint);
         sprint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                playSongTouch();
                 Intent intent = new Intent(MainMenu.this, ModeSprint.class);
                 intent.putExtra("autorised_time", 4);
                 startActivity(intent);
@@ -46,6 +52,7 @@ public class MainMenu extends Activity {
         endurance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                playSongTouch();
                 Intent intent = new Intent(MainMenu.this, ModeEndurance.class);
                 intent.putExtra("autorised_time", 21);
                 startActivity(intent);
@@ -57,6 +64,7 @@ public class MainMenu extends Activity {
         reflexe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                playSongTouch();
                 Intent intent = new Intent(MainMenu.this, ModeReflexe.class);
                 intent.putExtra("autorised_time", 10);
                 startActivity(intent);
@@ -68,6 +76,7 @@ public class MainMenu extends Activity {
         puissance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                playSongTouch();
                 Intent intent = new Intent(MainMenu.this, ModePuissance.class);
                 intent.putExtra("autorised_time", 3);
                 startActivity(intent);
@@ -79,6 +88,7 @@ public class MainMenu extends Activity {
         profil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                playSongTouch();
                 Intent intent = new Intent(MainMenu.this, Profil.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.vertical_fade_in, R.anim.vertical_fade_out);
@@ -89,5 +99,11 @@ public class MainMenu extends Activity {
     @Override
     public void onBackPressed() {
         // nothing
+    }
+
+    private void playSongTouch(){
+        if(DataGame.songTouchIsOn) {
+            songTouch.start();
+        }
     }
 }
