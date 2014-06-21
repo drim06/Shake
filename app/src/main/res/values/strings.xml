@@ -20,5 +20,12 @@
     <string name="title_activity_resultat_partie">ResultatPartie</string>
     <string name="title_activity_profil">Profil</string>
     <string name="options">Options</string>
+    <string name="title_activity_options">Options</string>
+    <string name="menu">Menu</string>
+    <string name="tutoriel">Tutoriel: NON</string>
+    <string name="song_touches">Son: NON</string>
+    <string name="musique">Musique: NON</string>
+    <string name="evaluer">Évaluer</string>
+    <string name="a_propos">À propos</string>
 
 </resources>

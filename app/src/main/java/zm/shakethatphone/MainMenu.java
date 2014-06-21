@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import zm.shakethatphone.ModesDeJeu.ModeEndurance;
 import zm.shakethatphone.ModesDeJeu.ModePuissance;
@@ -26,11 +26,12 @@ import zm.shakethatphone.ModesDeJeu.ModeSprint;
  *
  */
 public class MainMenu extends Activity {
-    private Button sprint;
-    private Button endurance;
-    private Button reflexe;
-    private Button puissance;
-    private Button profil;
+    private TextView sprint;
+    private TextView endurance;
+    private TextView reflexe;
+    private TextView puissance;
+    private TextView profil;
+    private TextView options;
 
     private MediaPlayer songTouch;
 
@@ -41,7 +42,7 @@ public class MainMenu extends Activity {
 
         songTouch = MediaPlayer.create(this, R.raw.song_touch);
 
-        sprint = (Button) findViewById(R.id.sprint);
+        sprint = (TextView) findViewById(R.id.sprint);
         sprint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +54,7 @@ public class MainMenu extends Activity {
             }
         });
 
-        endurance = (Button) findViewById(R.id.endurance);
+        endurance = (TextView) findViewById(R.id.endurance);
         endurance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +66,7 @@ public class MainMenu extends Activity {
             }
         });
 
-        reflexe = (Button) findViewById(R.id.reflexe);
+        reflexe = (TextView) findViewById(R.id.reflexe);
         reflexe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +78,7 @@ public class MainMenu extends Activity {
             }
         });
 
-        puissance = (Button) findViewById(R.id.puissance);
+        puissance = (TextView) findViewById(R.id.puissance);
         puissance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +90,18 @@ public class MainMenu extends Activity {
             }
         });
 
-        profil = (Button) findViewById(R.id.profil);
+        options = (TextView) findViewById(R.id.options);
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playSongTouch();
+                Intent intent = new Intent(MainMenu.this, Options.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.vertical_fade_in, R.anim.vertical_fade_out);
+            }
+        });
+
+        profil = (TextView) findViewById(R.id.profil);
         profil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
