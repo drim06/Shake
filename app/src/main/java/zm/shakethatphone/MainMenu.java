@@ -10,7 +10,8 @@ import android.widget.Button;
  * Shake That Phone
  *
  * idéal entre deux matchs, simple rapide et efficace, le jeu parfait pour vous
- * affronter entre amis tout en restant amusant.
+ * affronter entre amis tout en restant amusant. Et pourquoi ne pas perdre
+ * quelques calories en même temps ? =p
  *
  * êtes vous un Sprinteur ou plûtot Endurant ?
  * Vous misez tout sur la Puissance ou sur vos Reflexes ?
@@ -23,6 +24,7 @@ public class MainMenu extends Activity {
     private Button endurance;
     private Button reflexe;
     private Button puissance;
+    private Button profil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,5 +74,20 @@ public class MainMenu extends Activity {
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
+
+        profil = (Button) findViewById(R.id.profil);
+        profil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, Profil.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.vertical_fade_in, R.anim.vertical_fade_out);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // nothing
     }
 }

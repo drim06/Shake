@@ -34,6 +34,7 @@ public class ModePuissance extends Activity implements SensorEventListener {
      */
     SharedPreferences.Editor editor;
     int memoireBestScorePuissance;
+    int memoireCaloriesBrulees;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class ModePuissance extends Activity implements SensorEventListener {
         settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = settings.edit();
         memoireBestScorePuissance = settings.getInt("bestScorePuissance",0);
+        memoireCaloriesBrulees = settings.getInt("caloriesBrulees", 0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
@@ -119,6 +121,7 @@ public class ModePuissance extends Activity implements SensorEventListener {
             incrementTime();
             unregisterListenerGyroscope();
             updateNewScore();
+            updateCaloriesBrulees();
             goResultatPartie();
         }
     });
@@ -162,5 +165,17 @@ public class ModePuissance extends Activity implements SensorEventListener {
         intent.putExtra("score", bestPuissanceValue);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_opacity, R.anim.fade_out_opacity);
+    }
+
+    private void updateCaloriesBrulees(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int caloriesBruleesDuringThisGame = bestPuissanceValue / 1000;
+                int totalCaloriesBrulees = memoireCaloriesBrulees + caloriesBruleesDuringThisGame;
+                editor.putInt("caloriesBrulees", totalCaloriesBrulees);
+                editor.commit();
+            }
+        });
     }
 }

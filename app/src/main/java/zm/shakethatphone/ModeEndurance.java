@@ -28,6 +28,7 @@ public class ModeEndurance extends Activity implements SensorEventListener {
      */
     SharedPreferences.Editor editor;
     int memoireBestScoreEndurance;
+    int memoireCaloriesBrulees;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class ModeEndurance extends Activity implements SensorEventListener {
         settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = settings.edit();
         memoireBestScoreEndurance = settings.getInt("bestScoreEndurance",0);
+        memoireCaloriesBrulees = settings.getInt("caloriesBrulees", 0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
@@ -107,6 +109,7 @@ public class ModeEndurance extends Activity implements SensorEventListener {
             incrementTime();
             unregisterListenerGyroscope();
             updateNewScore();
+            updateCaloriesBrulees();
             goResultatPartie();
         }
     });
@@ -139,6 +142,18 @@ public class ModeEndurance extends Activity implements SensorEventListener {
                     editor.putInt("bestScoreEndurance",currentScore);
                     editor.commit();
                 }
+            }
+        });
+    }
+
+    private void updateCaloriesBrulees(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int caloriesBruleesDuringThisGame = currentScore / 100;
+                int totalCaloriesBrulees = memoireCaloriesBrulees + caloriesBruleesDuringThisGame;
+                editor.putInt("caloriesBrulees", totalCaloriesBrulees);
+                editor.commit();
             }
         });
     }

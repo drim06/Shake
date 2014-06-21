@@ -152,12 +152,6 @@ public class ResultatPartie extends Activity {
         }
     }
 
-    private void goMenu(){
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
-    }
-
     private void rejouer(){
         if(mode.equals("Mode Sprint")){
             reLaunchSprint();
@@ -196,5 +190,16 @@ public class ResultatPartie extends Activity {
         intent.putExtra("autorised_time", autorisedTime);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    @Override
+    public void onBackPressed() {
+        goMenu();
+    }
+
+    private void goMenu(){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
     }
 }

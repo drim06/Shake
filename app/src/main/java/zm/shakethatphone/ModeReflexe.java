@@ -34,6 +34,7 @@ public class ModeReflexe extends Activity implements SensorEventListener {
      */
     SharedPreferences.Editor editor;
     int memoireBestScoreReflexe;
+    int memoireCaloriesBrulees;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class ModeReflexe extends Activity implements SensorEventListener {
         settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = settings.edit();
         memoireBestScoreReflexe = settings.getInt("bestScoreReflexe",0);
+        memoireCaloriesBrulees = settings.getInt("caloriesBrulees", 0);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
 
@@ -126,6 +128,7 @@ public class ModeReflexe extends Activity implements SensorEventListener {
             incrementTime();
             unregisterListenerGyroscope();
             updateNewScore();
+            updateCaloriesBrulees();
             goResultatPartie();
         }
     });
@@ -204,6 +207,18 @@ public class ModeReflexe extends Activity implements SensorEventListener {
             userShouldShake = true;
             makeDesign();
         }
+    }
+
+    private void updateCaloriesBrulees(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int caloriesBruleesDuringThisGame = currentScore / 100;
+                int totalCaloriesBrulees = memoireCaloriesBrulees + caloriesBruleesDuringThisGame;
+                editor.putInt("caloriesBrulees", totalCaloriesBrulees);
+                editor.commit();
+            }
+        });
     }
 
     public void onBackPressed(){

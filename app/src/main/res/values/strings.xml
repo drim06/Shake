@@ -18,5 +18,7 @@
     <string name="title_activity_mode_sprint">ModeSprint</string>
     <string name="title_activity_mode_endurance">ModeEndurance</string>
     <string name="title_activity_resultat_partie">ResultatPartie</string>
+    <string name="title_activity_profil">Profil</string>
+    <string name="options">Options</string>
 
 </resources>
