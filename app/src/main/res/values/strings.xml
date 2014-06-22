@@ -27,5 +27,7 @@
     <string name="musique">Musique: NON</string>
     <string name="evaluer">Évaluer</string>
     <string name="contacter">Contacter</string>
+    <string name="partager">Partager</string>
+    <string name="reinitialiser">Réinitialiser</string>
 
 </resources>
