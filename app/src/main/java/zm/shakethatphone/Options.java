@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 public class Options extends Activity {
     private TextView menu;
-    private TextView tutoriel;
     private TextView son;
     private TextView musique;
     private TextView evaluer;
     private TextView contacter;
+    private TextView nothing;
 
     private MediaPlayer songTouch;
 
@@ -54,19 +54,6 @@ public class Options extends Activity {
             }
         });
 
-        tutoriel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(DataGame.tutorielIsOn){
-                    DataGame.tutorielIsOn = false;
-                } else {
-                    DataGame.tutorielIsOn = true;
-                }
-                printData();
-                playSongTouch();
-            }
-        });
-
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,15 +81,22 @@ public class Options extends Activity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)));
             }
         });
+
+        nothing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playSongTouch();
+            }
+        });
     }
 
     private void recupViews(){
         son = (TextView) findViewById(R.id.songTouches);
         musique = (TextView) findViewById(R.id.musique);
-        tutoriel = (TextView) findViewById(R.id.tutoriel);
         contacter = (TextView) findViewById(R.id.contacter);
         evaluer = (TextView) findViewById(R.id.evaluer);
         menu = (TextView) findViewById(R.id.menu);
+        nothing = (TextView) findViewById(R.id.nothing);
     }
 
     private void printData(){
@@ -116,12 +110,6 @@ public class Options extends Activity {
             musique.setText("Musique: OUI");
         } else {
             musique.setText("Musique: NON");
-        }
-
-        if(DataGame.tutorielIsOn){
-            tutoriel.setText("Tutoriel: OUI");
-        } else {
-            tutoriel.setText("Tutoriel: NON");
         }
     }
 

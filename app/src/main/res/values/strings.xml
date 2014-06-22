@@ -29,5 +29,6 @@
     <string name="contacter">Contacter</string>
     <string name="partager">Partager</string>
     <string name="reinitialiser">Réinitialiser</string>
+    <string name="nothing">...</string>
 
 </resources>
