@@ -10,7 +10,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import zm.shakethatphone.R;
 import zm.shakethatphone.ResultatPartie;
@@ -22,6 +25,7 @@ public class ModeSprint extends Activity implements SensorEventListener {
     private int currentScore;
     private int autorisedTime;
     private TextView viewCurrentScore;
+    private TextView viewTutoSprint;
     /**
      * Preferences
      */
@@ -30,6 +34,7 @@ public class ModeSprint extends Activity implements SensorEventListener {
      * Editer les preferences
      */
     SharedPreferences.Editor editor;
+    boolean afficherTuto;
     int memoireBestScoreSprint;
     int memoireCaloriesBrulees;
 
@@ -44,14 +49,33 @@ public class ModeSprint extends Activity implements SensorEventListener {
         editor = settings.edit();
         memoireBestScoreSprint = settings.getInt("bestScoreSprint",0);
         memoireCaloriesBrulees = settings.getInt("caloriesBrulees", 0);
+        afficherTuto = settings.getBoolean("tutoSprint", true);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
+        viewTutoSprint = (TextView) findViewById(R.id.tutoSprint);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        timer.start();
+        if(afficherTuto){
+            unregisterListenerGyroscope();
+            viewTutoSprint.setVisibility(View.VISIBLE);
+        }
+        else{
+            timer.start();
+        }
+        viewTutoSprint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewTutoSprint.setVisibility(View.INVISIBLE);
+                sensorManager.registerListener(new ModeSprint(),gyroscope,SensorManager.SENSOR_DELAY_UI);
+                editor.putBoolean("tutoSprint",false);
+                editor.commit();
+                timer.start();
+            }
+        });
+
     }
 
     @Override

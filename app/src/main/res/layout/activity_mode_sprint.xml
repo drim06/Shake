@@ -10,6 +10,13 @@
     android:background="@drawable/gradient_background">
 
     <TextView
+        android:id="@+id/tutoSprint"
+        android:text="Vous avez 3 secondes pour secouer votre télphone le plus vite possible !!"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
+
+    <TextView
         android:id="@+id/view_current_score"
         android:text="@string/view_current_score"
         android:layout_width="wrap_content"
