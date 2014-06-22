@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import zm.shakethatphone.DataGame;
 import zm.shakethatphone.R;
 import zm.shakethatphone.ResultatPartie;
 
@@ -26,23 +28,25 @@ public class ModeSprint extends Activity implements SensorEventListener {
     private int autorisedTime;
     private TextView viewCurrentScore;
     private TextView viewTutoSprint;
+    private ImageView imageTutoSprint;
     /**
      * Preferences
      */
-    SharedPreferences settings;
+    private SharedPreferences settings;
     /**
      * Editer les preferences
      */
-    SharedPreferences.Editor editor;
-    boolean afficherTuto;
-    int memoireBestScoreSprint;
-    int memoireCaloriesBrulees;
+    private SharedPreferences.Editor editor;
+    private boolean afficherTuto;
+    private int memoireBestScoreSprint;
+    private int memoireCaloriesBrulees;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_sprint);
+
 
         currentScore = 0;
         settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -54,13 +58,16 @@ public class ModeSprint extends Activity implements SensorEventListener {
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
         viewTutoSprint = (TextView) findViewById(R.id.tutoSprint);
+        imageTutoSprint = (ImageView) findViewById(R.id.imageTutoSprint);
+        imageTutoSprint.setAlpha(0.8f);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         if(afficherTuto){
-            unregisterListenerGyroscope();
             viewTutoSprint.setVisibility(View.VISIBLE);
+            imageTutoSprint.setVisibility(View.VISIBLE);
+            viewCurrentScore.setVisibility(View.INVISIBLE);
         }
         else{
             timer.start();
@@ -69,9 +76,11 @@ public class ModeSprint extends Activity implements SensorEventListener {
             @Override
             public void onClick(View v) {
                 viewTutoSprint.setVisibility(View.INVISIBLE);
-                sensorManager.registerListener(new ModeSprint(),gyroscope,SensorManager.SENSOR_DELAY_UI);
-                editor.putBoolean("tutoSprint",false);
+                imageTutoSprint.setVisibility(View.INVISIBLE);
+                viewCurrentScore.setVisibility(View.VISIBLE);
+                editor.putBoolean("tutoSprint", false);
                 editor.commit();
+                afficherTuto = false;
                 timer.start();
             }
         });
@@ -93,37 +102,42 @@ public class ModeSprint extends Activity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        final String LOG_TAG = "SensorsGyroscope";
-        if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            String accuracyStr;
-            if (SensorManager.SENSOR_STATUS_ACCURACY_HIGH == accuracy) {
-                accuracyStr = "SENSOR_STATUS_ACCURACY_HIGH";
-            } else if (SensorManager.SENSOR_STATUS_ACCURACY_LOW == accuracy) {
-                accuracyStr = "SENSOR_STATUS_ACCURACY_LOW";
-            } else if (SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM == accuracy) {
-                accuracyStr = "SENSOR_STATUS_ACCURACY_MEDIUM";
-            } else {
-                accuracyStr = "SENSOR_STATUS_UNRELIABLE";
+        if(!afficherTuto){
+            final String LOG_TAG = "SensorsGyroscope";
+            if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                String accuracyStr;
+                if (SensorManager.SENSOR_STATUS_ACCURACY_HIGH == accuracy) {
+                    accuracyStr = "SENSOR_STATUS_ACCURACY_HIGH";
+                } else if (SensorManager.SENSOR_STATUS_ACCURACY_LOW == accuracy) {
+                    accuracyStr = "SENSOR_STATUS_ACCURACY_LOW";
+                } else if (SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM == accuracy) {
+                    accuracyStr = "SENSOR_STATUS_ACCURACY_MEDIUM";
+                } else {
+                    accuracyStr = "SENSOR_STATUS_UNRELIABLE";
+                }
+                Log.d(LOG_TAG, "Sensor's values (" + xCurrentValueGyroscope + ","
+                        + yCurrentValueGyroscope + "," + zCurrentValueGyroscope + ") and accuracy : "
+                        + accuracyStr);
             }
-            Log.d(LOG_TAG, "Sensor's values (" + xCurrentValueGyroscope + ","
-                    + yCurrentValueGyroscope + "," + zCurrentValueGyroscope + ") and accuracy : "
-                    + accuracyStr);
         }
+
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        // mise a jour seulement quand on est dans le bon cas
-        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            // vitesse angulaire autour de chaque axes
-            xCurrentValueGyroscope = event.values[0];
-            yCurrentValueGyroscope = event.values[1];
-            zCurrentValueGyroscope = event.values[2];
+        if(!afficherTuto){
+            // mise a jour seulement quand on est dans le bon cas
+            if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                // vitesse angulaire autour de chaque axes
+                xCurrentValueGyroscope = event.values[0];
+                yCurrentValueGyroscope = event.values[1];
+                zCurrentValueGyroscope = event.values[2];
 
-            currentScore += (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
-                    + Math.abs(zCurrentValueGyroscope));
+                currentScore += (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
+                        + Math.abs(zCurrentValueGyroscope));
 
-            viewCurrentScore.setText(currentScore+"");
+                viewCurrentScore.setText(currentScore+"");
+            }
         }
     }
 

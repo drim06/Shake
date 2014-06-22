@@ -27,5 +27,10 @@
     <string name="musique">Musique: NON</string>
     <string name="evaluer">Évaluer</string>
     <string name="contacter">Contacter</string>
+    <string name="tutoSprint">Secouez votre téléphone le plus rapidement possible pendant 3 secondes.</string>
+    <string name="tutoEndurance">Secouez votre téléphone le plus vite possible pendant 20 secondes.</string>
+    <string name="tutoPuissance">Secouez votre téléphone le plus fort possible en 3 secondes.\n Seul le mouvement le plus puissant sera gardé !</string>
+    <string name="tutoReflexe">Quand le fond est vert : Secouez votre téléphone le plus rapidement possible.\n
+                               Quand le fond est jaune : Ne bougez plus votre téléphone. </string>
 
 </resources>

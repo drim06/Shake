@@ -10,6 +10,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -28,16 +30,19 @@ public class ModePuissance extends Activity implements SensorEventListener {
     private TextView viewCurrentScore;
     private int currentPuissanceValue;
     private int bestPuissanceValue;
+    private TextView viewTutoPuissance;
+    private ImageView imageTutoPuissance;
     /**
      * Preferences
      */
-    SharedPreferences settings;
+    private SharedPreferences settings;
     /**
      * Editer les preferences
      */
-    SharedPreferences.Editor editor;
-    int memoireBestScorePuissance;
-    int memoireCaloriesBrulees;
+    private SharedPreferences.Editor editor;
+    private int memoireBestScorePuissance;
+    private int memoireCaloriesBrulees;
+    private boolean afficherTuto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +56,38 @@ public class ModePuissance extends Activity implements SensorEventListener {
         editor = settings.edit();
         memoireBestScorePuissance = settings.getInt("bestScorePuissance",0);
         memoireCaloriesBrulees = settings.getInt("caloriesBrulees", 0);
+        afficherTuto = settings.getBoolean("tutoPuissance", true);
 
         autorisedTime = getIntent().getExtras().getInt("autorised_time");
         viewCurrentScore = (TextView) findViewById(R.id.view_current_score);
+        viewTutoPuissance = (TextView) findViewById(R.id.tutoPuissance);
+        imageTutoPuissance = (ImageView) findViewById(R.id.imageTutoPuissance);
+        imageTutoPuissance.setAlpha(0.8f);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        timer.start();
+        if(afficherTuto){
+            viewTutoPuissance.setVisibility(View.VISIBLE);
+            imageTutoPuissance.setVisibility(View.VISIBLE);
+            viewCurrentScore.setVisibility(View.INVISIBLE);
+        }
+        else{
+            timer.start();
+        }
+        viewTutoPuissance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewTutoPuissance.setVisibility(View.INVISIBLE);
+                imageTutoPuissance.setVisibility(View.INVISIBLE);
+                viewCurrentScore.setVisibility(View.VISIBLE);
+                editor.putBoolean("tutoPuissance", false);
+                editor.commit();
+                afficherTuto = false;
+                timer.start();
+            }
+        });
+
     }
 
     @Override
@@ -76,40 +105,44 @@ public class ModePuissance extends Activity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        final String LOG_TAG = "SensorsGyroscope";
-        if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            String accuracyStr;
-            if (SensorManager.SENSOR_STATUS_ACCURACY_HIGH == accuracy) {
-                accuracyStr = "SENSOR_STATUS_ACCURACY_HIGH";
-            } else if (SensorManager.SENSOR_STATUS_ACCURACY_LOW == accuracy) {
-                accuracyStr = "SENSOR_STATUS_ACCURACY_LOW";
-            } else if (SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM == accuracy) {
-                accuracyStr = "SENSOR_STATUS_ACCURACY_MEDIUM";
-            } else {
-                accuracyStr = "SENSOR_STATUS_UNRELIABLE";
+        if(!afficherTuto){
+            final String LOG_TAG = "SensorsGyroscope";
+            if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                String accuracyStr;
+                if (SensorManager.SENSOR_STATUS_ACCURACY_HIGH == accuracy) {
+                    accuracyStr = "SENSOR_STATUS_ACCURACY_HIGH";
+                } else if (SensorManager.SENSOR_STATUS_ACCURACY_LOW == accuracy) {
+                    accuracyStr = "SENSOR_STATUS_ACCURACY_LOW";
+                } else if (SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM == accuracy) {
+                    accuracyStr = "SENSOR_STATUS_ACCURACY_MEDIUM";
+                } else {
+                    accuracyStr = "SENSOR_STATUS_UNRELIABLE";
+                }
+                Log.d(LOG_TAG, "Sensor's values (" + xCurrentValueGyroscope + ","
+                        + yCurrentValueGyroscope + "," + zCurrentValueGyroscope + ") and accuracy : "
+                        + accuracyStr);
             }
-            Log.d(LOG_TAG, "Sensor's values (" + xCurrentValueGyroscope + ","
-                    + yCurrentValueGyroscope + "," + zCurrentValueGyroscope + ") and accuracy : "
-                    + accuracyStr);
         }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        // mise a jour seulement quand on est dans le bon cas
-        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            // vitesse angulaire autour de chaque axes
-            xCurrentValueGyroscope = event.values[0];
-            yCurrentValueGyroscope = event.values[1];
-            zCurrentValueGyroscope = event.values[2];
+        if(!afficherTuto){
+            // mise a jour seulement quand on est dans le bon cas
+            if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                // vitesse angulaire autour de chaque axes
+                xCurrentValueGyroscope = event.values[0];
+                yCurrentValueGyroscope = event.values[1];
+                zCurrentValueGyroscope = event.values[2];
 
-            Random r = new Random();
-            currentPuissanceValue = (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
-                    + Math.abs(zCurrentValueGyroscope))*(95 + r.nextInt(10));
+                Random r = new Random();
+                currentPuissanceValue = (int) (Math.abs(xCurrentValueGyroscope) + Math.abs(yCurrentValueGyroscope)
+                        + Math.abs(zCurrentValueGyroscope))*(95 + r.nextInt(10));
 
-            if(currentPuissanceValue > bestPuissanceValue){
-                bestPuissanceValue = currentPuissanceValue;
-                viewCurrentScore.setText(bestPuissanceValue+"");
+                if(currentPuissanceValue > bestPuissanceValue){
+                    bestPuissanceValue = currentPuissanceValue;
+                    viewCurrentScore.setText(bestPuissanceValue+"");
+                }
             }
         }
     }
