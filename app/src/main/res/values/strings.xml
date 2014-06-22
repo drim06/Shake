@@ -32,5 +32,8 @@
     <string name="tutoPuissance">Secouez votre téléphone le plus fort possible en 3 secondes.\n Seul le mouvement le plus puissant sera gardé !</string>
     <string name="tutoReflexe">Quand le fond est vert : Secouez votre téléphone le plus rapidement possible.\n
                                Quand le fond est jaune : Ne bougez plus votre téléphone. </string>
+    <string name="partager">Partager</string>
+    <string name="reinitialiser">Réinitialiser</string>
+    <string name="nothing">...</string>
 
 </resources>

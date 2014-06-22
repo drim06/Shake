@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.TextView;
 
 public class Profil extends Activity {
@@ -23,6 +24,8 @@ public class Profil extends Activity {
     TextView txtBestScoreReflexe;
     TextView txtBestScorePuissance;
     TextView txtCaloriesBrulees;
+    TextView txtPartager;
+    TextView txtReinitialiser;
 
     MediaPlayer songTouch;
 
@@ -36,6 +39,33 @@ public class Profil extends Activity {
         recupData();
         recupViews();
         updateViews();
+
+        txtPartager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playSongTouch();
+                // need partage face...
+            }
+        });
+
+        txtReinitialiser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playSongTouch();
+                resetGameScores();
+                recupData();
+                updateViews();
+            }
+        });
+    }
+
+    private void resetGameScores(){
+        editor.putInt("bestScoreSprint", 0);
+        editor.putInt("bestScoreEndurance", 0);
+        editor.putInt("bestScoreReflexe", 0);
+        editor.putInt("bestScorePuissance", 0);
+        editor.putInt("caloriesBrulees", 0);
+        editor.commit();
     }
 
     private void recupData(){
@@ -54,6 +84,8 @@ public class Profil extends Activity {
         txtBestScoreReflexe = (TextView) findViewById(R.id.bestReflexe);
         txtBestScorePuissance = (TextView) findViewById(R.id.bestPuissance);
         txtCaloriesBrulees = (TextView) findViewById(R.id.caloriesBrulees);
+        txtPartager = (TextView) findViewById(R.id.partager);
+        txtReinitialiser = (TextView) findViewById(R.id.reinitialiser);
     }
 
     private void updateViews(){
