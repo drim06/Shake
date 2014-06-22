@@ -3,7 +3,9 @@ package zm.shakethatphone;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,6 +27,8 @@ public class ResultatPartie extends Activity {
     TextView txtBestScore;
     TextView txtMeilleur;
     LinearLayout linearLayout;
+
+    BitmapDrawable bitmapDrawable;
 
     String mode;
     int autorisedTime;
@@ -54,7 +58,28 @@ public class ResultatPartie extends Activity {
         txtPartager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = "Salut";
+                //takeScreenshot();
+//                ImageView image = (ImageView) findViewById(R.id.screenshots);
+//                image.setBackgroundDrawable(bitmapDrawable);
+//                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+//                Uri screenshotUri = Uri.parse();
+//
+//                sharingIntent.setType("image/png");
+//                sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+//                startActivity(Intent.createChooser(sharingIntent, "Share image using"));
+
+
+                // Now send it out to share
+//                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+//                share.setType("image/*");
+//                share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + sharefile));
+//                try {
+//                    startActivity(Intent.createChooser(share, "Share photo"));
+//                } catch (Exception e) {
+//
+//                }
+
+                String message = mode.split(" ")[1] + " Mode, " + score + " pts !!" +" Who can beat me in @ShakeThatPhone : " + " https://play.google.com/store/apps/details?id=" + getPackageName();
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT, message);
@@ -76,6 +101,14 @@ public class ResultatPartie extends Activity {
                 rejouer();
             }
         });
+    }
+
+    private void takeScreenshot(){
+        LinearLayout L1 = (LinearLayout) findViewById(R.id.linearLayoutResultatPartie);
+        View v1 = L1.getRootView();
+        v1.setDrawingCacheEnabled(true);
+        Bitmap bm = v1.getDrawingCache();
+        bitmapDrawable = new BitmapDrawable(bm);
     }
 
     private void recupData(){
