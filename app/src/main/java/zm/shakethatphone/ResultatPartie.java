@@ -54,7 +54,12 @@ public class ResultatPartie extends Activity {
         txtPartager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // nothing pour le moment
+                String message = "Salut";
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, message);
+
+                startActivity(Intent.createChooser(share, "Partager"));
             }
         });
 
