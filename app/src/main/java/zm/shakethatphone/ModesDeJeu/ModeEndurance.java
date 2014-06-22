@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import zm.shakethatphone.DataGame;
 import zm.shakethatphone.R;
 import zm.shakethatphone.ResultatPartie;
 
@@ -67,7 +66,7 @@ public class ModeEndurance extends Activity implements SensorEventListener {
         else{
             timer.start();
         }
-        viewTutoEndurance.setOnClickListener(new View.OnClickListener() {
+        imageTutoEndurance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewTutoEndurance.setVisibility(View.INVISIBLE);

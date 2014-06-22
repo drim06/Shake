@@ -75,7 +75,7 @@ public class ModePuissance extends Activity implements SensorEventListener {
         else{
             timer.start();
         }
-        viewTutoPuissance.setOnClickListener(new View.OnClickListener() {
+        imageTutoPuissance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewTutoPuissance.setVisibility(View.INVISIBLE);

@@ -14,9 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import zm.shakethatphone.DataGame;
 import zm.shakethatphone.R;
 import zm.shakethatphone.ResultatPartie;
 
@@ -72,7 +69,7 @@ public class ModeSprint extends Activity implements SensorEventListener {
         else{
             timer.start();
         }
-        viewTutoSprint.setOnClickListener(new View.OnClickListener() {
+        imageTutoSprint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewTutoSprint.setVisibility(View.INVISIBLE);

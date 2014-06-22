@@ -78,7 +78,7 @@ public class ModeReflexe extends Activity implements SensorEventListener {
         else{
             timer.start();
         }
-        viewTutoReflexe.setOnClickListener(new View.OnClickListener() {
+        imageTutoReflexe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewTutoReflexe.setVisibility(View.INVISIBLE);
