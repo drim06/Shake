@@ -96,6 +96,14 @@ public class Profil extends Activity {
         txtCaloriesBrulees.setText(caloriesBrulees+"");
     }
 
+    private void fakeDataViews(){
+        txtBestScoreSprint.setText(812+"");
+        txtBestScoreEndurance.setText(2312+ "");
+        txtBestScoreReflexe.setText(326+"");
+        txtBestScorePuissance.setText(3020+"");
+        txtCaloriesBrulees.setText(246+"");
+    }
+
     @Override
     public void onBackPressed() {
         playSongTouch();
