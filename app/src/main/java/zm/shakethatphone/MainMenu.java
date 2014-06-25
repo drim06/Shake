@@ -51,6 +51,7 @@ public class MainMenu extends Activity {
                 intent.putExtra("autorised_time", 4);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -63,6 +64,7 @@ public class MainMenu extends Activity {
                 intent.putExtra("autorised_time", 21);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -75,6 +77,7 @@ public class MainMenu extends Activity {
                 intent.putExtra("autorised_time", 10);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -87,6 +90,7 @@ public class MainMenu extends Activity {
                 intent.putExtra("autorised_time", 3);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
             }
         });
 
@@ -98,6 +102,7 @@ public class MainMenu extends Activity {
                 Intent intent = new Intent(MainMenu.this, Options.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.vertical_fade_in, R.anim.vertical_fade_out);
+                finish();
             }
         });
 
@@ -109,13 +114,16 @@ public class MainMenu extends Activity {
                 Intent intent = new Intent(MainMenu.this, Profil.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.vertical_fade_in, R.anim.vertical_fade_out);
+                finish();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        // nothing
+        // quitte l'appli
+        finish();
+        System.exit(0);
     }
 
     private void playSongTouch(){

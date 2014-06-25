@@ -204,5 +204,6 @@ public class ModeSprint extends Activity implements SensorEventListener {
         intent.putExtra("score", currentScore);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_opacity, R.anim.fade_out_opacity);
+        finish();
     }
 }
