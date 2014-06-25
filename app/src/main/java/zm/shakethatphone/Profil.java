@@ -120,5 +120,6 @@ public class Profil extends Activity {
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
         overridePendingTransition(R.anim.vertical_reverse_fade_in, R.anim.vertical_reverse_fade_out);
+        finish();
     }
 }

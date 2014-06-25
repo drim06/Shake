@@ -244,5 +244,6 @@ public class ResultatPartie extends Activity {
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
         overridePendingTransition(R.anim.reverse_fade_in, R.anim.reverse_fade_out);
+        finish();
     }
 }

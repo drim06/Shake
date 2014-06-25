@@ -201,6 +201,7 @@ public class ModePuissance extends Activity implements SensorEventListener {
         intent.putExtra("score", bestPuissanceValue);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_opacity, R.anim.fade_out_opacity);
+        finish();
     }
 
     private void updateCaloriesBrulees(){
