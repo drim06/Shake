@@ -17,11 +17,21 @@ public class Options extends Activity {
     private TextView nothing;
 
     private MediaPlayer songTouch;
+    private String songYes;
+    private String songNo;
+    private String musicYes;
+    private String musicNo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+
+        songNo = this.getString(R.string.song_touchesNon);
+        songYes = this.getString(R.string.song_touchesOui);
+        musicYes = this.getString(R.string.musiqueOui);
+        musicNo = this.getString(R.string.musiqueNon);
 
         recupViews();
         printData();
@@ -101,15 +111,15 @@ public class Options extends Activity {
 
     private void printData(){
         if(DataGame.songTouchIsOn){
-            son.setText("Son: OUI");
+            son.setText(songYes);
         } else {
-            son.setText("Son: NON");
+            son.setText(songNo);
         }
 
         if(DataGame.songNewBestScoreIsOn){
-            musique.setText("Musique: OUI");
+            musique.setText(musicYes);
         } else {
-            musique.setText("Musique: NON");
+            musique.setText(musicNo);
         }
     }
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Shake That Phone</string>
+    <string name="view_current_score">0</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="sprint">Sprint</string>
+    <string name="endurance">Endurance</string>
+    <string name="reflexe">Réflexe</string>
+    <string name="jouer">Jouer</string>
+    <string name="profil">Profil</string>
+    <string name="aventure">Aventure</string>
+    <string name="puissance">Puissance</string>
+    <string name="title_activity_mode_reflexe">ModeReflexe</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_mode_puissance">ModePuissance</string>
+    <string name="title_activity_mode_sprint">ModeSprint</string>
+    <string name="title_activity_mode_endurance">ModeEndurance</string>
+    <string name="title_activity_resultat_partie">ResultatPartie</string>
+    <string name="title_activity_profil">Profil</string>
+    <string name="options">Options</string>
+    <string name="title_activity_options">Options</string>
+    <string name="menu">Menu</string>
+    <string name="tutorielNon">Tutoriel: NON</string>
+    <string name="song_touchesNon">Son: NON</string>
+    <string name="musiqueNon">Musique: NON</string>
+    <string name="tutorielOui">Tutoriel: OUI</string>
+    <string name="song_touchesOui">Son: OUI</string>
+    <string name="musiqueOui">Musique: OUI</string>
+    <string name="evaluer">Évaluer</string>
+    <string name="contacter">Contacter</string>
+    <string name="tutoSprint">Secouez votre téléphone le plus rapidement possible pendant 3 secondes.</string>
+    <string name="tutoEndurance">Secouez votre téléphone le plus vite possible pendant 20 secondes.</string>
+    <string name="tutoPuissance">Secouez votre téléphone le plus fort possible en 3 secondes.\n Seul le mouvement le plus puissant sera gardé !</string>
+    <string name="tutoReflexe">Quand le fond est vert : Secouez votre téléphone le plus rapidement possible.\n
+                               Quand le fond est jaune : Ne bougez plus votre téléphone. </string>
+    <string name="partager">Partager</string>
+    <string name="reinitialiser">Réinitialiser</string>
+    <string name="caloriesbrulees">Calories brûlées</string>
+    <string name="rejouer">Rejouer</string>
+    <string name="meilleur">MEILLEUR \u0020</string>
+    <string name="nothing">...</string>
+
+</resources>

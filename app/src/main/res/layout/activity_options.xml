@@ -52,7 +52,6 @@
             android:layout_centerVertical="true"
             android:background="#ffd700"
             android:textColor="#228b22"
-            android:text="@string/song_touches"
             android:textSize="32sp" />
 
         <Button
@@ -64,7 +63,6 @@
             android:layout_centerVertical="true"
             android:background="#228b22"
             android:textColor="#ffd700"
-            android:text="@string/musique"
             android:textSize="26sp"/>
 
     </LinearLayout>
